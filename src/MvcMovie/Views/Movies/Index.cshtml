@@ -1,0 +1,83 @@
+@model MovieGenreViewModel
+
+@{
+    ViewData["Title"] = "List Movies";
+}
+
+<h2>Index</h2>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Create New</a>
+</p>
+
+<form asp-controller="Movies" asp-action="Index" method="get" class="form-inline" id="searchForm">
+    <div class="form-group">
+        <select asp-for="movieGenre" id="selectGenre" asp-items="Model.genres" class="form-control">
+            <option value="">All</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <div class="input-group">
+            <div class="input-group-addon">Title</div>
+            <input type="text" name="SearchString" class="form-control">
+        </div>
+    </div>
+    <input type="submit" value="Filter" class="btn btn-default" />
+</form>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.movies[0].Genre)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.movies[0].Price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.movies[0].ReleaseDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.movies[0].Title)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.movies) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Genre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Price)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ReleaseDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+
+@section Scripts{
+<script>
+    $(document).ready(function () {
+
+        $('#selectGenre').change(function () {
+            $('#searchForm').submit();
+        });
+
+    })
+</script>
+}
+
+
